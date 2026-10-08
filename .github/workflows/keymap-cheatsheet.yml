@@ -32,7 +32,7 @@ jobs:
           mkdir -p keymap-cheatsheet
           keymap -c keymap_drawer.config.yaml parse \
             -z config/keymap.keymap \
-            -l Base Scroll Symbols Navigation \
+            -l Base "Layer 1" "Layer 2" "Layer 3" \
             -o keymap-cheatsheet/torabo-tsuki-lp-l.yaml
 
       - name: Render SVG
