@@ -1,5 +1,7 @@
 draw_config:
   append_colon_to_layer_header: true
+  shrink_wide_legends: 0
+  style_layer_activators: false
   svg_extra_style: |
     text.label {
       font-weight: normal;
