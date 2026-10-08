@@ -7,6 +7,9 @@ draw_config:
       stroke-width: 0;
       paint-order: normal;
     }
+    text.layer-activator {
+      text-decoration: none;
+    }
 
 parse_config:
   preprocess: true
