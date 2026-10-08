@@ -1,0 +1,58 @@
+name: Build keymap cheat sheet
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "config/keymap.keymap"
+      - "config/info.json"
+      - "keymap_drawer.config.yaml"
+      - ".github/workflows/keymap-cheatsheet.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-cheatsheet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install rendering tools
+        run: pip install keymap-drawer==0.23.0 CairoSVG==2.8.2
+
+      - name: Parse L-size keymap
+        run: |
+          mkdir -p keymap-cheatsheet
+          keymap -c keymap_drawer.config.yaml parse \
+            -z config/keymap.keymap \
+            -l Base Scroll Symbols Navigation \
+            -o keymap-cheatsheet/torabo-tsuki-lp-l.yaml
+
+      - name: Render SVG
+        run: |
+          keymap -c keymap_drawer.config.yaml draw \
+            keymap-cheatsheet/torabo-tsuki-lp-l.yaml \
+            -j config/info.json \
+            -l LAYOUT \
+            -o keymap-cheatsheet/torabo-tsuki-lp-l.svg
+
+      - name: Render PDF
+        run: |
+          cairosvg keymap-cheatsheet/torabo-tsuki-lp-l.svg \
+            -o keymap-cheatsheet/torabo-tsuki-lp-l.pdf
+
+      - name: Upload cheat sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: keymap-cheatsheet-l
+          path: |
+            keymap-cheatsheet/torabo-tsuki-lp-l.pdf
+            keymap-cheatsheet/torabo-tsuki-lp-l.svg
+          if-no-files-found: error
