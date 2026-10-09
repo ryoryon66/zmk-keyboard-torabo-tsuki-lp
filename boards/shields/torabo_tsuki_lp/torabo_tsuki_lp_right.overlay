@@ -7,6 +7,15 @@
 
 &pointing_listener {
     input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+
+    /* Layer 2: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
+     * Override replaces base processors while the layer is active. */
+    scroller {
+        layers = <2>;
+        input-processors =
+            <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
+            <&zip_xy_to_scroll_mapper>;
+    };
 };
 
 &size_s_transform {

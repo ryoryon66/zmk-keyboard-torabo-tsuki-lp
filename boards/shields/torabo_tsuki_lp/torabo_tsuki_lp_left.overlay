@@ -6,4 +6,13 @@
 
 &pointing_listener {
     input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+
+    /* Layer 2: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
+     * Same as right; active when this side is central with a trackball. */
+    scroller {
+        layers = <2>;
+        input-processors =
+            <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
+            <&zip_xy_to_scroll_mapper>;
+    };
 };
