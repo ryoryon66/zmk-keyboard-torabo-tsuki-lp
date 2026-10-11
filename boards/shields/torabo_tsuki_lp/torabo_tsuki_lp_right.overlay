@@ -13,14 +13,16 @@
         <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
         <&zip_xy_scaler 7 8>;
 
-    /* Layer 2: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
+    /* Layer 3: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
      * Override replaces base processors while the layer is active.
-     * zip_scroll_scaler here is independent of the cursor zip_xy_scaler above. */
+     * zip_scroll_scaler here is independent of the cursor zip_xy_scaler above.
+     * zip_scroll_transform Y_INVERT flips vertical wheel only vs previous Layer 2 feel. */
     scroller {
-        layers = <2>;
+        layers = <3>;
         input-processors =
             <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
             <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
             <&zip_scroll_scaler 1 1>;
     };
 };
