@@ -3,6 +3,7 @@
 #include "torabo_tsuki_lp.dtsi"
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
+#include <scroll-snap.dtsi>
 
 &pointing_listener {
     /* Same pointing pipeline as right; used when this side is central with a trackball.
@@ -11,14 +12,14 @@
         <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
         <&zip_xy_scaler 7 8>;
 
-    /* Layer 3: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
-     * Override replaces base processors while the layer is active.
-     * zip_scroll_transform Y_INVERT flips vertical wheel only vs previous Layer 2 feel. */
+    /* Layer 3: XY -> scroll, then axis-snap (kot149/zmk-scroll-snap) to reduce diagonals.
+     * Cursor path above is unchanged. Vertical wheel invert is scroll-only. */
     scroller {
         layers = <3>;
         input-processors =
             <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
             <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_snap>,
             <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
             <&zip_scroll_scaler 1 1>;
     };
