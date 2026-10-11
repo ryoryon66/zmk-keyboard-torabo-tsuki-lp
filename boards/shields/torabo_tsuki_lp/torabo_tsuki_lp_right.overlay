@@ -6,15 +6,22 @@
 #include <dt-bindings/zmk/input_transform.h>
 
 &pointing_listener {
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+    /* Cursor sensitivity: 7/8 (0.875x) via software scaler so scroll can stay independent.
+     * CPI is left at the PAW3222 default (no res-cpi) because a sensor CPI change would
+     * scale both cursor and scroll together. */
+    input-processors =
+        <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
+        <&zip_xy_scaler 7 8>;
 
     /* Layer 2: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
-     * Override replaces base processors while the layer is active. */
+     * Override replaces base processors while the layer is active.
+     * zip_scroll_scaler here is independent of the cursor zip_xy_scaler above. */
     scroller {
         layers = <2>;
         input-processors =
             <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
-            <&zip_xy_to_scroll_mapper>;
+            <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_scaler 1 1>;
     };
 };
 

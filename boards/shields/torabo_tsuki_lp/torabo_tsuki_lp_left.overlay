@@ -5,14 +5,19 @@
 #include <dt-bindings/zmk/input_transform.h>
 
 &pointing_listener {
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+    /* Same pointing pipeline as right; used when this side is central with a trackball.
+     * Cursor: 7/8 (0.875x). Scroll sensitivity is tuned separately via zip_scroll_scaler. */
+    input-processors =
+        <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
+        <&zip_xy_scaler 7 8>;
 
     /* Layer 2: XY movement -> vertical/horizontal scroll (ZMK zip_xy_to_scroll_mapper).
-     * Same as right; active when this side is central with a trackball. */
+     * Override replaces base processors while the layer is active. */
     scroller {
         layers = <2>;
         input-processors =
             <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
-            <&zip_xy_to_scroll_mapper>;
+            <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_scaler 1 1>;
     };
 };
