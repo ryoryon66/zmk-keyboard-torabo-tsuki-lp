@@ -41,7 +41,6 @@ jobs:
             keymap-cheatsheet/torabo-tsuki-lp-l.yaml \
             -j config/info.json \
             -l LAYOUT \
-            --keys-only \
             -o keymap-cheatsheet/torabo-tsuki-lp-l.svg
 
       - name: Render PDF
