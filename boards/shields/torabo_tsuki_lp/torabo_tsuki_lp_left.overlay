@@ -13,13 +13,13 @@
         <&zip_xy_scaler 7 8>;
 
     /* Layer 3: XY -> scroll, then axis-snap (kot149/zmk-scroll-snap) to reduce diagonals.
-     * Cursor path above is unchanged. Scroll sensitivity is 1/2 via zip_scroll_scaler. */
+     * Cursor path above is unchanged. Scroll sensitivity is 1/4 via zip_scroll_scaler. */
     scroller {
         layers = <3>;
         input-processors =
             <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
             <&zip_xy_to_scroll_mapper>,
             <&zip_scroll_snap>,
-            <&zip_scroll_scaler 1 2>;
+            <&zip_scroll_scaler 1 4>;
     };
 };
